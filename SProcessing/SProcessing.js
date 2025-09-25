@@ -10,17 +10,29 @@ let a = [[8,7,6,5,4,3,1,9,2],
          [6,5,4,3,2,1,8,7,9],
          [9,8,7,6,5,4,2,1,3]];
          
-let CellSize = 50;
-let BoardSize = CellSize * 9;
+let cellSize = 50;
+let boardSize = cellSize * 9;
 
 function setup(){
   createCanvas(500,500);
+  drawBoard();
 }
 
 function draw(){
-  background(100);
+  
 }
 
 function drawBoard(){
-  
+  fill(0);
+  for(let i = 0; i <= 9; i++){
+    if((i % 3) == 0){
+      strokeWeight(3);
+    } else {
+      strokeWeight(1);
+    }
+    
+    line(0, cellSize*i, boardSize, cellSize*i);
+    line(cellSize*i, 0, cellSize*i, boardSize);
+    
+  }
 }
