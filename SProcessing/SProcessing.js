@@ -9,3 +9,18 @@ let a = [[8,7,6,5,4,3,1,9,2],
          [3,2,1,9,8,7,5,4,6],
          [6,5,4,3,2,1,8,7,9],
          [9,8,7,6,5,4,2,1,3]];
+         
+let CellSize = 50;
+let BoardSize = CellSize * 9;
+
+function setup(){
+  createCanvas(500,500);
+}
+
+function draw(){
+  background(100);
+}
+
+function drawBoard(){
+  
+}
