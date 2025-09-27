@@ -30,7 +30,6 @@ function setup(){
     randomBlank();
     fillBoard();
     removeNumber(board);
-    printBoardTest();
     drawBoard();
     drawNumInBoard();
     drawAnswer();
@@ -75,24 +74,6 @@ function fillBoard() {
             board[row][col] = a[row][col];
         }
     }
-}
-
-function printBoardTest() {
-    for (let row = 0; row < a.length; row++) {
-        let rowStr = "";
-        for (let col = 0; col < board[row].length; col++) {
-            if ((col + 1) % 3 === 0) {
-                rowStr += str(board[row][col]) + "  ";
-             } else {
-                   rowStr += str(board[row][col]) + " ";
-             }
-        }
-        print(rowStr);
-
-        if ((row + 1) % 3 === 0) {
-            print("");
-        }
-  }
 }
 
 function removeNumber(board) {
