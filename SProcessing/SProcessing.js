@@ -147,6 +147,8 @@ function mouseReleased(){
 }
 
 function drawDraggingAnswer(){
+    push();
+    
     textAlign(CENTER, CENTER);
     textSize(30);
     fill(0);
@@ -157,4 +159,6 @@ function drawDraggingAnswer(){
     strokeWeight(2);
     rectMode(CENTER);
     rect(mouseX, mouseY, 50, 50);
+    
+    pop();
 }
