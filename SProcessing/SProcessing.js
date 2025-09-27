@@ -20,6 +20,11 @@ for (let i = 0; i < 9; i++) {
 
 function setup(){
     createCanvas(500,500);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    randomBlank();
+    fillBoard();
+    printBoardTest();
     drawBoard();
 }
 
@@ -43,7 +48,7 @@ function drawBoard(){
      }
 
 function randomBlank(){
-    for(let i = 0; i < 7; i++){
+    for(let i = 0; i < blank.length; i++){
         blank[i] = int(random(0,9));
     }
 }
@@ -58,4 +63,18 @@ function fillBoard(){
             Board[i][col] = 0;
         }
     }
+}
+
+function printBoardTest() {
+  for (let i = 0; i < a.length; i++) {
+    let rowStr = "";
+    for (let j = 0; j < a[i].length; j++) {
+      rowStr += str(board[i][j]) + " ";
+    }
+    print(rowStr);
+
+    if ((i + 1) % 3 === 0) {
+      print("");
+    }
+  }
 }
