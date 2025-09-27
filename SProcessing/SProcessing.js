@@ -21,6 +21,7 @@ for (let i = 0; i < 9; i++) {
 
 let rows;
 let cols = - 1;
+let dragAnswer = -1;
 
 function setup(){
     createCanvas(boardSize, cellSize * 12);
@@ -39,10 +40,11 @@ function draw() {
     background(250);
     drawBoard();
     drawNumInBoard();
-    if(rows >= 0 && cols >= 0){
-        selectedCell();
-    }
     drawAnswer();
+    
+    if (dragAnswer != -1) {
+        drawDraggingAnswer();
+    }
 }
 
 
@@ -119,20 +121,10 @@ function drawNumInBoard(){
 
 function mouseClicked(){
     if(mouseY <= 450){
-        rows = float(mouseY / cellSize);
-        cols = float(mouseX / cellSize);
+        rows = floor(mouseY / cellSize);
+        cols = floor(mouseX / cellSize);
     }
     print("(" + rows + ", " + cols + ")");
-}
-
-function selectedCell(){
-    noStroke();
-    fill(255, 255, 0, 150);
-    rect(cols * cellSize, rows * cellSize, cellSize, cellSize);
-    stroke(0);
-    strokeWeight(1);
-    noFill();
-    rect(cols * cellSize, rows * cellSize, cellSize, cellSize);    
 }
 
 function drawAnswer() {
@@ -151,4 +143,37 @@ function drawAnswer() {
   for (let col = 0; col < 9; col++) {
     text(col + 1, col * cellSize + cellSize / 2, cellSize * 10.5);
   }
+}
+
+function mouseDragged(){
+    if(mouseY >= cellSize * 10 && mouseY <= cellSize * 11 && mouseX >= 0 && mouseX <= cellSize * 9){
+        let col = floor(mouseX / cellSize);
+        dragAnswer = col + 1;
+}
+
+}
+
+function mouseReleased(){
+    if(dragAnswer != -1){
+        let row = floor(mouseY / cellSize);
+        let col = floor(mouseX / cellSize);
+        
+        if(row >= 0 && row < 9 && col >= 0 && col < 9 && board[row][col] == 0){
+            board[row][col] = dragAnswer;
+        }
+        dragAnswer = -1; 
+    }
+}
+
+function drawDraggingAnswer(){
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    fill(0);
+    text(dragAnswer, mouseX, mouseY);
+
+    noFill();
+    stroke(0);
+    strokeWeight(2);
+    rectMode(CENTER);
+    rect(mouseX, mouseY, 50, 50);
 }
