@@ -19,10 +19,11 @@ for (let i = 0; i < 9; i++) {
     board[i] = new Array(9).fill(0);
 }
 
-let rows,cols;
+let rows;
+let cols = - 1;
 
 function setup(){
-    createCanvas(500,500);
+    createCanvas(boardSize, cellSize * 12);
     textAlign(CENTER, CENTER);
     textSize(20);
     randomBlank();
@@ -31,17 +32,19 @@ function setup(){
     printBoardTest();
     drawBoard();
     drawNumInBoard();
+    drawAnswer();
 }
 
-function draw(){
-    background(255);
+function draw() {
+    background(250);
     drawBoard();
     drawNumInBoard();
-    
-    if(rows > 0 && cols > 0){
+    if(rows >= 0 && cols >= 0){
         selectedCell();
     }
+    drawAnswer();
 }
+
 
 function drawBoard(){
     fill(0);
@@ -116,8 +119,8 @@ function drawNumInBoard(){
 
 function mouseClicked(){
     if(mouseY <= 450){
-        rows = mouseY / cellSize;
-        cols = mouseX / cellSize;
+        rows = float(mouseY / cellSize);
+        cols = float(mouseX / cellSize);
     }
     print("(" + rows + ", " + cols + ")");
 }
@@ -126,4 +129,26 @@ function selectedCell(){
     noStroke();
     fill(255, 255, 0, 150);
     rect(cols * cellSize, rows * cellSize, cellSize, cellSize);
+    stroke(0);
+    strokeWeight(1);
+    noFill();
+    rect(cols * cellSize, rows * cellSize, cellSize, cellSize);    
+}
+
+function drawAnswer() {
+  fill(0);
+  strokeWeight(3);
+
+  line(0, cellSize * 10, width, cellSize * 10);
+  line(0, cellSize * 11, width, cellSize * 11);
+
+  for (let i = 0; i < 9; i++) {
+    line(i * cellSize, cellSize * 10, i * cellSize, cellSize * 11);
+  }
+
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  for (let col = 0; col < 9; col++) {
+    text(col + 1, col * cellSize + cellSize / 2, cellSize * 10.5);
+  }
 }
