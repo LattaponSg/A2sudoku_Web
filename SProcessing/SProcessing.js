@@ -12,6 +12,7 @@ let a = [[8,7,6,5,4,3,1,9,2],
          
 let cellSize = 50;
 let boardSize = cellSize * 9;
+let blank = new Array(4); 
 
 function setup(){
   createCanvas(500,500);
@@ -34,5 +35,11 @@ function drawBoard(){
     line(0, cellSize*i, boardSize, cellSize*i);
     line(cellSize*i, 0, cellSize*i, boardSize);
     
+  }
+}
+
+function randomBlank(){
+  for(let i = 0; i < 7; i++){
+    blank[i] = int(random(0,9));
   }
 }
