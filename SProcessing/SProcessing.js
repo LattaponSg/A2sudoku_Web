@@ -27,6 +27,7 @@ function setup(){
     removeNumber(board);
     printBoardTest();
     drawBoard();
+    drawNumInBoard();
 }
 
 function draw(){
@@ -89,6 +90,17 @@ function removeNumber(board) {
                 col = int(random(9));
             }     
             board[row][col] = 0;
+        }
+    }
+}
+
+function drawNumInBoard(){
+    fill(0);
+    for(let row = 0; row < board.length; row++){
+        for (let col = 0 ; col < board[row].length ; col++){
+            if(board[row][col] != 0){
+                text(board[row][col], col*cellSize + cellSize/2 , row*cellSize + cellSize/2);
+            }
         }
     }
 }
