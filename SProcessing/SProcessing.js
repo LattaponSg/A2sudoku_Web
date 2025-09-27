@@ -13,10 +13,13 @@ let a = [[8,7,6,5,4,3,1,9,2],
 let cellSize = 50;
 let boardSize = cellSize * 9;
 let blank = new Array(4);
+
 let board = new Array(9);
 for (let i = 0; i < 9; i++) {
     board[i] = new Array(9).fill(0);
 }
+
+let rows,cols;
 
 function setup(){
     createCanvas(500,500);
@@ -31,7 +34,13 @@ function setup(){
 }
 
 function draw(){
-  
+    background(255);
+    drawBoard();
+    drawNumInBoard();
+    
+    if(rows > 0 && cols > 0){
+        selectedCell();
+    }
 }
 
 function drawBoard(){
@@ -103,4 +112,18 @@ function drawNumInBoard(){
             }
         }
     }
+}
+
+function mouseClicked(){
+    if(mouseY <= 450){
+        rows = mouseY / cellSize;
+        cols = mouseX / cellSize;
+    }
+    print("(" + rows + ", " + cols + ")");
+}
+
+function selectedCell(){
+    noStroke();
+    fill(255, 255, 0, 150);
+    rect(cols * cellSize, rows * cellSize, cellSize, cellSize);
 }
