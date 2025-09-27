@@ -24,6 +24,7 @@ function setup(){
     textSize(20);
     randomBlank();
     fillBoard();
+    removeNumber(board);
     printBoardTest();
     drawBoard();
 }
@@ -53,28 +54,41 @@ function randomBlank(){
     }
 }
 
-function fillBoard(){
-    for(let i = 0; i < 9; i++){
-        for(let j = 0; j < 9; j++){
-            board[i][j] = a[i][j];
-        }
-        for (let k = 0; k < 4; k++) {
-            let col = Blank[k];
-            Board[i][col] = 0;
+function fillBoard() {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            board[row][col] = a[row][col];
         }
     }
 }
 
 function printBoardTest() {
-  for (let i = 0; i < a.length; i++) {
-    let rowStr = "";
-    for (let j = 0; j < a[i].length; j++) {
-      rowStr += str(board[i][j]) + " ";
-    }
-    print(rowStr);
+    for (let row = 0; row < a.length; row++) {
+        let rowStr = "";
+        for (let col = 0; col < board[row].length; col++) {
+            if ((col + 1) % 3 === 0) {
+                rowStr += str(board[row][col]) + "  ";
+             } else {
+                   rowStr += str(board[row][col]) + " ";
+             }
+        }
+        print(rowStr);
 
-    if ((i + 1) % 3 === 0) {
-      print("");
-    }
+        if ((row + 1) % 3 === 0) {
+            print("");
+        }
   }
+}
+
+function removeNumber(board) {
+    for (let row = 0; row < board.length; row++) {
+        let blank = int(random(2, 6));    
+        for (let b = 0; b < blank; b++) {
+            let col = int(random(9));      
+            while (board[row][col] === 0) {
+                col = int(random(9));
+            }     
+            board[row][col] = 0;
+        }
+    }
 }
