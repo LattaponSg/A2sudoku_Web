@@ -26,10 +26,13 @@ let offsetX;
 let offsetY;
 let mx;
 let my;
+
 let wrongCells = new Array(9);
 for (let i = 0; i < 9; i++) {
     wrongCells[i] = new Array(9).fill(false);
 }
+
+let gameWin = false;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -60,12 +63,20 @@ function draw() {
         drawDraggingAnswer(offsetX, offsetY);
     }
     
-    if (gameOver) {
+    if(gameOver){
         background(250);
         textSize(80);
         textAlign(CENTER, CENTER);
         fill(255, 0, 0);
         text("GAME OVER", offsetX-300, offsetY+180);
+    }
+    
+    if(gameWin){
+        background(250);
+        textSize(80);
+        textAlign(CENTER, CENTER);
+        fill(0, 200, 0);
+        text("YOU WIN!", offsetX-300, offsetY+180);
     }
 }
 
@@ -179,6 +190,11 @@ function mouseReleased(){
         if(row >= 0 && row < 9 && col >= 0 && col < 9){
             board[row][col] = dragAnswer;
             checkAnswer(row, col);
+            
+            if(!gameOver && checkWin()){
+                gameWin = true;
+                noLoop();
+            }
         }
         dragAnswer = -1; 
     }
@@ -211,4 +227,15 @@ function checkAnswer(row, col){
     } else {
         wrongCells[row][col] = false;
     }
+}
+
+function checkWin(){
+    for(let row = 0; row < 9; row++){
+        for(let col = 0; col < 9; col++){
+            if(board[row][col] == 0 || wrongCells[row][col]){
+                return false;
+            }
+        }
+    }
+    return true;
 }
