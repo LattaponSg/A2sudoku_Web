@@ -176,7 +176,7 @@ function mouseReleased(){
         let row = floor(my / cellSize);
         let col = floor(mx / cellSize);
 
-        if(row >= 0 && row < 9 && col >= 0 && col < 9 && board[row][col] == 0){
+        if(row >= 0 && row < 9 && col >= 0 && col < 9){
             board[row][col] = dragAnswer;
             checkAnswer(row, col);
         }
