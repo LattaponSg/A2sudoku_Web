@@ -140,17 +140,27 @@ function drawAnswer() {
 }
 
 function mouseDragged(){
-    if(mouseY >= cellSize * 10 && mouseY <= cellSize * 11 && mouseX >= 0 && mouseX <= cellSize * 9){
-        let col = floor(mouseX / cellSize);
-        dragAnswer = col + 1;
-}
+    let offsetX = (width - boardSize) / 2;
+    let offsetY = (height - cellSize * 11) / 2;
+    let mx = mouseX - offsetX;
+    let my = mouseY - offsetY;
 
+    if(my >= cellSize * 10 && my <= cellSize * 11 && mx >= 0 && mx <= cellSize * 9){
+        let col = floor(mx / cellSize);
+        dragAnswer = col + 1;
+    }
 }
 
 function mouseReleased(){
     if(dragAnswer != -1){
-        let row = floor(mouseY / cellSize);
-        let col = floor(mouseX / cellSize);
+        let offsetX = (width - boardSize) / 2;
+        let offsetY = (height - cellSize * 11) / 2;
+
+        let mx = mouseX - offsetX;
+        let my = mouseY - offsetY;
+
+        let row = floor(my / cellSize);
+        let col = floor(mx / cellSize);
         
         if(row >= 0 && row < 9 && col >= 0 && col < 9 && board[row][col] == 0){
             board[row][col] = dragAnswer;
