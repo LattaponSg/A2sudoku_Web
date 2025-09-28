@@ -27,6 +27,8 @@ function setup(){
     createCanvas(cellSize*9, cellSize * 11);
     textAlign(CENTER, CENTER);
     textSize(20);
+    wrongCount = 0;
+    gameOver = false;
     randomBlank();
     fillBoard();
     removeNumber(board);
@@ -45,7 +47,12 @@ function draw() {
         drawDraggingAnswer();
     }
     
-    checkAnswer();
+    if (gameOver) {
+        background(250);
+        textSize(50);
+        textAlign(CENTER, CENTER);
+        text("GAME OVER", width / 2, height / 2);
+    }
 }
 
 
@@ -143,6 +150,7 @@ function mouseReleased(){
         
         if(row >= 0 && row < 9 && col >= 0 && col < 9 && board[row][col] == 0){
             board[row][col] = dragAnswer;
+            checkAnswer(row, col);
         }
         dragAnswer = -1; 
     }
@@ -165,13 +173,11 @@ function drawDraggingAnswer(){
     pop();
 }
 
-function checkAnswer(){
-    for(let row = 0; row < 9; row++){
-        for(let col = 0; col < 9; col++){
-            if(board[row][col] != 0 && board[row][col] != a[row][col]){
-                return false;
-            }
+function checkAnswer(row, col){
+    if(board[row][col] != 0 && board[row][col] != a[row][col]){
+        wrongCount++;
+        if (wrongCount == 3) {
+            gameOver = true;
         }
     }
-    return true;
 }
