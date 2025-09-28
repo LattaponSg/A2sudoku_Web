@@ -68,7 +68,11 @@ function draw() {
         textSize(80);
         textAlign(CENTER, CENTER);
         fill(255, 0, 0);
-        text("GAME OVER", offsetX-300, offsetY+180);
+        text("GAME OVER!", offsetX-300, offsetY+180);
+        textSize(40);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text("Press R to Reset Game", offsetX-300, offsetY+300)
     }
     
     if(gameWin){
@@ -77,6 +81,10 @@ function draw() {
         textAlign(CENTER, CENTER);
         fill(0, 200, 0);
         text("YOU WIN!", offsetX-300, offsetY+180);
+        textSize(40);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text("Press R to Reset Game", offsetX-300, offsetY+300)
     }
 }
 
@@ -254,4 +262,11 @@ function resetGame() {
     gameOver = false;
     gameWin = false;
     dragAnswer = -1;
+}
+
+function keyPressed() {
+    if (key === 'r' || key === 'R') {
+        resetGame();
+        loop();
+    }
 }
