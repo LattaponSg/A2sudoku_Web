@@ -24,7 +24,7 @@ let cols = - 1;
 let dragAnswer = -1;
 
 function setup(){
-    createCanvas(boardSize, cellSize * 12);
+    createCanvas(cellSize*9, cellSize * 11);
     textAlign(CENTER, CENTER);
     textSize(20);
     randomBlank();
@@ -112,10 +112,10 @@ function drawAnswer() {
   fill(0);
   strokeWeight(3);
 
-  line(0, cellSize * 10, width, cellSize * 10);
-  line(0, cellSize * 11, width, cellSize * 11);
+  line(0, cellSize * 10, cellSize * 9, cellSize * 10);
+  line(0, cellSize * 11, cellSize * 9, cellSize * 11);
 
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i <= 9; i++) {
     line(i * cellSize, cellSize * 10, i * cellSize, cellSize * 11);
   }
 
