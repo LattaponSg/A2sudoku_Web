@@ -22,6 +22,10 @@ for (let i = 0; i < 9; i++) {
 let rows;
 let cols = - 1;
 let dragAnswer = -1;
+let offsetX;
+let offsetY;
+let mx;
+let my;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -48,13 +52,16 @@ function draw() {
     drawAnswer();
     
     if (dragAnswer != -1) {
-        drawDraggingAnswer();
+        offsetX = (width - boardSize) / 2;
+        offsetY = (height - cellSize * 11) / 2;
+        drawDraggingAnswer(offsetX, offsetY);
     }
     
     if (gameOver) {
         background(250);
-        textSize(50);
+        textSize(80);
         textAlign(CENTER, CENTER);
+        fill(255, 0, 0);
         text("GAME OVER", width / 2, height / 2);
     }
 }
@@ -140,12 +147,12 @@ function drawAnswer() {
 }
 
 function mouseDragged(){
-    let offsetX = (width - boardSize) / 2;
-    let offsetY = (height - cellSize * 11) / 2;
-    let mx = mouseX - offsetX;
-    let my = mouseY - offsetY;
+    offsetX = (width - boardSize) / 2;
+    offsetY = (height - cellSize * 11) / 2;
+    mx = mouseX - offsetX;
+    my = mouseY - offsetY;
 
-    if(my >= cellSize * 10 && my <= cellSize * 11 && mx >= 0 && mx <= cellSize * 9){
+    if(my >= cellSize * 10 && my <= cellSize * 11 && mx >= 0 && mx <= boardSize){
         let col = floor(mx / cellSize);
         dragAnswer = col + 1;
     }
@@ -153,15 +160,15 @@ function mouseDragged(){
 
 function mouseReleased(){
     if(dragAnswer != -1){
-        let offsetX = (width - boardSize) / 2;
-        let offsetY = (height - cellSize * 11) / 2;
-
-        let mx = mouseX - offsetX;
-        let my = mouseY - offsetY;
+        offsetX = (width - boardSize) / 2;
+        offsetY = (height - cellSize * 11) / 2;
+        
+        mx = mouseX - offsetX;
+        my = mouseY - offsetY;
 
         let row = floor(my / cellSize);
         let col = floor(mx / cellSize);
-        
+
         if(row >= 0 && row < 9 && col >= 0 && col < 9 && board[row][col] == 0){
             board[row][col] = dragAnswer;
             checkAnswer(row, col);
@@ -170,20 +177,20 @@ function mouseReleased(){
     }
 }
 
-function drawDraggingAnswer(){
-    push();
+function drawDraggingAnswer(offsetX, offsetY) {
+    mx = mouseX - offsetX;
+    my = mouseY - offsetY;
     
+    push();
     textAlign(CENTER, CENTER);
     textSize(30);
     fill(0);
-    text(dragAnswer, mouseX, mouseY);
-
+    text(dragAnswer, mx, my);
     noFill();
     stroke(0);
     strokeWeight(2);
     rectMode(CENTER);
-    rect(mouseX, mouseY, 50, 50);
-    
+    rect(mx, my, cellSize, cellSize);
     pop();
 }
 
