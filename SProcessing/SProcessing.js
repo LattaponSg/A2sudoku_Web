@@ -26,6 +26,10 @@ let offsetX;
 let offsetY;
 let mx;
 let my;
+let wrongCells = new Array(9);
+for (let i = 0; i < 9; i++) {
+    wrongCells[i] = new Array(9).fill(false);
+}
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -44,8 +48,8 @@ function setup(){
 function draw() {
     background(250);
     
-    let offsetX = (width - boardSize) / 2;
-    let offsetY = (height - cellSize * 11) / 2;
+    offsetX = (width - boardSize) / 2;
+    offsetY = (height - cellSize * 11) / 2;
     
     translate(offsetX, offsetY); 
     drawBoard();
@@ -109,10 +113,14 @@ function removeNumber(board) {
 }
 
 function drawNumInBoard(){
-    fill(0);
     for(let row = 0; row < board.length; row++){
         for (let col = 0 ; col < board[row].length ; col++){
             if(board[row][col] != 0){
+                if(wrongCells[row][col]){
+                    fill(255, 0, 0);
+                } else {
+                    fill(0);
+                }
                 text(board[row][col], col*cellSize + cellSize/2 , row*cellSize + cellSize/2);
             }
         }
@@ -194,10 +202,13 @@ function drawDraggingAnswer(offsetX, offsetY) {
 }
 
 function checkAnswer(row, col){
-    if(board[row][col] != 0 && board[row][col] != a[row][col]){
+    if(board[row][col] != a[row][col]){
+        wrongCells[row][col] = true;
         wrongCount++;
         if (wrongCount == 3) {
             gameOver = true;
         }
+    } else {
+        wrongCells[row][col] = false;
     }
 }
