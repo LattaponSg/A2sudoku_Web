@@ -43,17 +43,16 @@ function setup(){
 
 function draw() {
     background(250);
+    
     let offsetX = (width - boardSize) / 2;
     let offsetY = (height - cellSize * 11) / 2;
-    push();
+    
     translate(offsetX, offsetY); 
     drawBoard();
     drawNumInBoard();
     drawAnswer();
     
     if (dragAnswer != -1) {
-        offsetX = (width - boardSize) / 2;
-        offsetY = (height - cellSize * 11) / 2;
         drawDraggingAnswer(offsetX, offsetY);
     }
     
@@ -62,7 +61,7 @@ function draw() {
         textSize(80);
         textAlign(CENTER, CENTER);
         fill(255, 0, 0);
-        text("GAME OVER", width / 2, height / 2);
+        text("GAME OVER", offsetX-300, offsetY+180);
     }
 }
 
