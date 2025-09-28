@@ -44,6 +44,8 @@ function draw() {
     if (dragAnswer != -1) {
         drawDraggingAnswer();
     }
+    
+    checkAnswer();
 }
 
 
@@ -161,4 +163,15 @@ function drawDraggingAnswer(){
     rect(mouseX, mouseY, 50, 50);
     
     pop();
+}
+
+function checkAnswer(){
+    for(let row = 0; row < 9; row++){
+        for(let col = 0; col < 9; col++){
+            if(board[row][col] != 0 && board[row][col] != a[row][col]){
+                return false;
+            }
+        }
+    }
+    return true;
 }
