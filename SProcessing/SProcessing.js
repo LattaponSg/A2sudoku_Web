@@ -24,7 +24,7 @@ let cols = - 1;
 let dragAnswer = -1;
 
 function setup(){
-    createCanvas(cellSize*9, cellSize * 11);
+    createCanvas(windowWidth, windowHeight);
     textAlign(CENTER, CENTER);
     textSize(20);
     wrongCount = 0;
@@ -39,6 +39,10 @@ function setup(){
 
 function draw() {
     background(250);
+    let offsetX = (width - boardSize) / 2;
+    let offsetY = (height - cellSize * 11) / 2;
+    push();
+    translate(offsetX, offsetY); 
     drawBoard();
     drawNumInBoard();
     drawAnswer();
