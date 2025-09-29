@@ -32,6 +32,8 @@ for (let i = 0; i < 9; i++) {
     wrongCells[i] = new Array(9).fill(false);
 }
 
+let wrongCount = 0;
+let gameOver = false;
 let gameWin = false;
 
 function setup(){
@@ -40,6 +42,7 @@ function setup(){
     textSize(20);
     wrongCount = 0;
     gameOver = false;
+    gameWin = false;
     randomBlank();
     fillBoard();
     removeNumber(board);
