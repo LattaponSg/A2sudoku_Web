@@ -173,14 +173,12 @@ function drawAnswer() {
 }
 
 function mouseDragged(){
-    offsetX = (width - boardSize) / 2;
-    offsetY = (height - cellSize * 11) / 2;
     mx = mouseX - offsetX;
     my = mouseY - offsetY;
 
-    if(my >= cellSize * 10 && my <= cellSize * 11 && mx >= 0 && mx <= boardSize){
-        let col = floor(mx / cellSize);
-        dragAnswer = col + 1;
+    if(dragAnswer != -1){
+        mx = mouseX - offsetX;
+        my = mouseY - offsetY;
     }
 }
 
@@ -268,5 +266,20 @@ function keyPressed() {
     if (key === 'r' || key === 'R') {
         resetGame();
         loop();
+    }
+}
+
+function mousePressed(){
+    offsetX = (width - boardSize) / 2;
+    offsetY = (height - cellSize * 11) / 2;
+    let mx = mouseX - offsetX;
+    let my = mouseY - offsetY;
+
+    if(my >= cellSize * 10 && my <= cellSize * 11 && mx >= 0 && mx <= boardSize){
+        let col = floor(mx / cellSize);
+        dragAnswer = col + 1;
+    }else if(my >= 0 && my < boardSize && mx >= 0 && mx < boardSize){
+        rows = floor(my / cellSize);
+        cols = floor(mx / cellSize);
     }
 }
