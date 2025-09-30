@@ -32,7 +32,7 @@ for (let i = 0; i < 9; i++) {
     wrongCells[i] = new Array(9).fill(false);
 }
 
-let wrongCount = 0;
+let wrongCount = 3;
 let gameOver = false;
 let gameWin = false;
 
@@ -40,7 +40,6 @@ function setup(){
     createCanvas(windowWidth, windowHeight);
     textAlign(CENTER, CENTER);
     textSize(20);
-    wrongCount = 0;
     gameOver = false;
     gameWin = false;
     randomBlank();
@@ -229,8 +228,8 @@ function drawDraggingAnswer(offsetX, offsetY) {
 function checkAnswer(row, col){
     if(board[row][col] != a[row][col]){
         wrongCells[row][col] = true;
-        wrongCount++;
-        if (wrongCount == 3) {
+        wrongCount--;
+        if (wrongCount == 0) {
             gameOver = true;
         }
     } else {
@@ -259,7 +258,7 @@ function resetGame() {
         }
     }
 
-    wrongCount = 0;
+    wrongCount = 3;
     gameOver = false;
     gameWin = false;
     dragAnswer = -1;
