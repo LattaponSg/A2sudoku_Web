@@ -60,6 +60,9 @@ function draw() {
     drawBoard();
     drawNumInBoard();
     drawAnswer();
+    text("Chance : " + wrongCount ,offsetX-453, offsetY+383);
+    highlightSelectedCell();
+    
     
     if (dragAnswer != -1) {
         drawDraggingAnswer(offsetX, offsetY);
@@ -148,10 +151,15 @@ function drawNumInBoard(){
     }
 }
 
-function mouseClicked(){
-    if(mouseY <= 450){
-        rows = floor(mouseY / cellSize);
-        cols = floor(mouseX / cellSize);
+function mouseClicked() {
+    let mx = mouseX - offsetX;
+    let my = mouseY - offsetY;
+    if (mx >= 0 && mx < boardSize && my >= 0 && my < boardSize) {
+        rows = floor(my / cellSize);
+        cols = floor(mx / cellSize);
+    } else {
+        rows = -1;
+        cols = -1;
     }
     print("(" + rows + ", " + cols + ")");
 }
@@ -283,5 +291,26 @@ function mousePressed(){
     }else if(my >= 0 && my < boardSize && mx >= 0 && mx < boardSize){
         rows = floor(my / cellSize);
         cols = floor(mx / cellSize);
+    }
+}
+
+function highlightSelectedCell() {
+    if (rows >= 0 && rows < 9 && cols >= 0 && cols < 9) {
+        let row = rows;
+        let col = cols;
+
+        fill(255, 255, 0, 100);
+        rect(col * cellSize, row * cellSize, cellSize, cellSize);
+
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (board[i][j] === board[row][col] && board[row][col] !== 0) {
+                    if (!(i === row && j === col)) {
+                        fill(255, 255, 0, 50);
+                        square(j * cellSize, i * cellSize, cellSize);
+                    }
+                }
+            }
+        }
     }
 }
