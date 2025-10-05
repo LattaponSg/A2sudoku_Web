@@ -56,18 +56,19 @@ function draw() {
     offsetX = (width - boardSize) / 2;
     offsetY = (height - cellSize * 11) / 2;
     
+    push();
     translate(offsetX, offsetY); 
     drawBoard();
     drawNumInBoard();
     drawAnswer();
     text("Chance : " + wrongCount ,offsetX-453, offsetY+383);
-    highlightSelectedCell();
-    drawSaveButton();    
+    highlightSelectedCell();    
     
     if (dragAnswer != -1) {
         drawDraggingAnswer(offsetX, offsetY);
     }
-    
+    pop();
+    drawSaveButton();
     if(gameOver){
         background(250);
         textSize(80);
@@ -292,6 +293,16 @@ function mousePressed(){
         rows = floor(my / cellSize);
         cols = floor(mx / cellSize);
     }
+    
+    let btnX = 880;
+    let btnY = height - 189;
+    let btnW = 100;
+    let btnH = 40;
+
+    if (mouseX >= btnX && mouseX <= btnX + btnW &&
+        mouseY >= btnY && mouseY <= btnY + btnH) {
+        saveGame();
+    }
 }
 
 function highlightSelectedCell() {
@@ -315,14 +326,11 @@ function highlightSelectedCell() {
     }
 }
 
-function drawSaveButton(){
-    offsetX = (width - boardSize) / 2;
-    offsetY = (height - cellSize * 11) / 2;
-    
+function drawSaveButton(){   
     let btnW = 100;
     let btnH = 40;
-    let btnX = offsetX - 200;
-    let btnY = offsetY + 361;
+    let btnX = 880;
+    let btnY = height - 189;
     
     strokeWeight(2);
     fill(255);
@@ -330,5 +338,14 @@ function drawSaveButton(){
     fill(0, 200, 0);
     textSize(20);
     textAlign(CENTER, CENTER);
-    text("Save", btnX, btnY, btnW, btnH);
+    text("Save", btnX + btnW/2, btnY + btnH/2);
+}
+
+function saveGame() {
+    let data = [];
+    for (let row of board) {
+        data.push(row.join(" "));
+    }    
+    saveStrings(data, "sudoku_save_game.txt"); 
+    print("Game saved!");
 }
