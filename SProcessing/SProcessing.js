@@ -62,7 +62,7 @@ function draw() {
     drawAnswer();
     text("Chance : " + wrongCount ,offsetX-453, offsetY+383);
     highlightSelectedCell();
-    
+    drawSaveButton();    
     
     if (dragAnswer != -1) {
         drawDraggingAnswer(offsetX, offsetY);
@@ -313,4 +313,22 @@ function highlightSelectedCell() {
             }
         }
     }
+}
+
+function drawSaveButton(){
+    offsetX = (width - boardSize) / 2;
+    offsetY = (height - cellSize * 11) / 2;
+    
+    let btnW = 100;
+    let btnH = 40;
+    let btnX = offsetX - 200;
+    let btnY = offsetY + 361;
+    
+    strokeWeight(2);
+    fill(255);
+    rect(btnX, btnY, btnW, btnH);
+    fill(0, 200, 0);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("Save", btnX, btnY, btnW, btnH);
 }
