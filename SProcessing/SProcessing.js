@@ -346,6 +346,5 @@ function saveGame() {
     for (let row of board) {
         data.push(row.join(" "));
     }    
-    saveStrings(data, "sudoku_save_game.txt"); 
-    print("Game saved!");
+    localStorage.setItem("sudoku_save", JSON.stringify(data));
 }
