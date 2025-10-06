@@ -294,7 +294,7 @@ function mousePressed(){
         cols = floor(mx / cellSize);
     }
     
-    let btnX = 880;
+    let btnX = 768;
     let btnY = height - 189;
     let btnW = 100;
     let btnH = 40;
@@ -302,6 +302,10 @@ function mousePressed(){
     if (mouseX >= btnX && mouseX <= btnX + btnW &&
         mouseY >= btnY && mouseY <= btnY + btnH) {
         saveGame();
+    }
+    if (mouseX >= btnX + 120 && mouseX <= btnX + 120 + btnW &&
+        mouseY >= btnY && mouseY <= btnY + btnH) {
+        loadGame();
     }
 }
 
@@ -329,7 +333,7 @@ function highlightSelectedCell() {
 function drawSaveButton(){   
     let btnW = 100;
     let btnH = 40;
-    let btnX = 880;
+    let btnX = 768;
     let btnY = height - 189;
     
     strokeWeight(2);
@@ -339,6 +343,11 @@ function drawSaveButton(){
     textSize(20);
     textAlign(CENTER, CENTER);
     text("Save", btnX + btnW/2, btnY + btnH/2);
+    
+    fill(255);
+    rect(btnX + 120, btnY, btnW, btnH);
+    fill(0, 100, 255);
+    text("Load", btnX + 120 + btnW/2, btnY + btnH/2);
 }
 
 function saveGame() {
@@ -347,4 +356,14 @@ function saveGame() {
         data.push(row.join(" "));
     }    
     localStorage.setItem("sudoku_save", JSON.stringify(data));
+}
+
+function loadGame(){
+    let saved = localStorage.getItem("sudoku_save");
+    if (saved) {
+        let data = JSON.parse(saved);
+        for (let i = 0; i < 9; i++) {
+            board[i] = data[i].split(" ").map(Number);
+        }
+    }
 }
