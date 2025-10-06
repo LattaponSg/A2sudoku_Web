@@ -69,29 +69,7 @@ function draw() {
     }
     pop();
     drawSaveButton();
-    if(gameOver){
-        background(250);
-        textSize(80);
-        textAlign(CENTER, CENTER);
-        fill(255, 0, 0);
-        text("GAME OVER!", width / 2, height / 2 - 50);
-        textSize(40);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text("Press R to Reset Game", width / 2, height / 2 + 20)
-    }
-    
-    if(gameWin){
-        background(250);
-        textSize(80);
-        textAlign(CENTER, CENTER);
-        fill(0, 200, 0);
-        text("YOU WIN!", width / 2, height / 2 - 50);
-        textSize(40);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text("Press R to Reset Game", width / 2, height / 2 + 20)
-    }
+    endGame();
 }
 
 
@@ -365,5 +343,30 @@ function loadGame(){
         for (let i = 0; i < 9; i++) {
             board[i] = data[i].split(" ").map(Number);
         }
+    }
+}
+
+function endGame(){
+    if(gameOver){
+        background(250);
+        textSize(80);
+        textAlign(CENTER, CENTER);
+        fill(255, 0, 0);
+        text("GAME OVER!", width / 2, height / 2 - 50);
+        textSize(40);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text("Press R to Reset Game", width / 2, height / 2 + 20)
+    }   
+    if(gameWin){
+        background(250);
+        textSize(80);
+        textAlign(CENTER, CENTER);
+        fill(0, 200, 0);
+        text("YOU WIN!", width / 2, height / 2 - 50);
+        textSize(40);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text("Press R to Reset Game", width / 2, height / 2 + 20)
     }
 }
