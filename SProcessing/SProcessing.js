@@ -35,6 +35,7 @@ for (let i = 0; i < 9; i++) {
 let wrongCount = 3;
 let gameOver = false;
 let gameWin = false;
+let lines;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -47,10 +48,12 @@ function setup(){
     removeNumber(board);
     drawBoard();
     drawNumInBoard();
+    loadGame();
     drawAnswer();
+    loadGame();
 }
 
-function draw() {
+function draw(){
     background(250);
     
     offsetX = (width - boardSize) / 2;
@@ -84,9 +87,8 @@ function drawBoard(){
     
          line(0, cellSize*i, boardSize, cellSize*i);
          line(cellSize*i, 0, cellSize*i, boardSize);
-    
-         }
-     }
+    }
+}
 
 function randomBlank(){
     for(let i = 0; i < blank.length; i++){
@@ -94,7 +96,7 @@ function randomBlank(){
     }
 }
 
-function fillBoard() {
+function fillBoard(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             board[row][col] = a[row][col];
@@ -102,12 +104,12 @@ function fillBoard() {
     }
 }
 
-function removeNumber(board) {
+function removeNumber(board){
     for (let row = 0; row < board.length; row++) {
         let blank = int(random(2, 6));    
         for (let b = 0; b < blank; b++) {
             let col = int(random(9));      
-            while (board[row][col] === 0) {
+            while (board[row][col] == 0) {
                 col = int(random(9));
             }     
             board[row][col] = 0;
@@ -130,7 +132,7 @@ function drawNumInBoard(){
     }
 }
 
-function mouseClicked() {
+function mouseClicked(){
     let mx = mouseX - offsetX;
     let my = mouseY - offsetY;
     if (mx >= 0 && mx < boardSize && my >= 0 && my < boardSize) {
@@ -143,7 +145,7 @@ function mouseClicked() {
     print("(" + rows + ", " + cols + ")");
 }
 
-function drawAnswer() {
+function drawAnswer(){
   fill(0);
   strokeWeight(3);
 
@@ -195,7 +197,7 @@ function mouseReleased(){
     }
 }
 
-function drawDraggingAnswer(offsetX, offsetY) {
+function drawDraggingAnswer(offsetX, offsetY){
     mx = mouseX - offsetX;
     my = mouseY - offsetY;
     
@@ -235,7 +237,7 @@ function checkWin(){
     return true;
 }
 
-function resetGame() {
+function resetGame(){
     fillBoard();
     removeNumber(board);
 
@@ -251,7 +253,7 @@ function resetGame() {
     dragAnswer = -1;
 }
 
-function keyPressed() {
+function keyPressed(){
     if (key === 'r' || key === 'R') {
         resetGame();
         loop();
@@ -287,7 +289,7 @@ function mousePressed(){
     }
 }
 
-function highlightSelectedCell() {
+function highlightSelectedCell(){
     if (rows >= 0 && rows < 9 && cols >= 0 && cols < 9) {
         let row = rows;
         let col = cols;
@@ -311,7 +313,7 @@ function highlightSelectedCell() {
 function drawSaveButton(){   
     let btnW = 100;
     let btnH = 40;
-    let btnX = 768;
+    let btnX = 880;
     let btnY = height - 189;
     
     strokeWeight(2);
@@ -322,28 +324,36 @@ function drawSaveButton(){
     textAlign(CENTER, CENTER);
     text("Save", btnX + btnW/2, btnY + btnH/2);
     
-    fill(255);
-    rect(btnX + 120, btnY, btnW, btnH);
-    fill(0, 100, 255);
-    text("Load", btnX + 120 + btnW/2, btnY + btnH/2);
+    fill(0);
+    
 }
 
-function saveGame() {
+function saveGame(){
     let data = [];
     for (let row of board) {
         data.push(row.join(" "));
     }    
-    localStorage.setItem("sudoku_save", JSON.stringify(data));
+    saveStrings(data, "sudoku_save_game.txt"); 
 }
 
 function loadGame(){
-    let saved = localStorage.getItem("sudoku_save");
-    if (saved) {
-        let data = JSON.parse(saved);
-        for (let i = 0; i < 9; i++) {
-            board[i] = data[i].split(" ").map(Number);
+    loadStrings('sudoku_save_game.txt', (lines) => {
+        board = [];
+        for (let i = 0; i < lines.length; i++) {
+            let row = lines[i].trim().split(/\s+/).map(Number);
+            board.push(row);
         }
-    }
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                wrongCells[row][col] = false;
+            }
+        }
+        gameOver = false;
+        gameWin = false;
+        wrongCount = 3;
+        dragAnswer = -1;
+        loop();
+    });
 }
 
 function endGame(){
