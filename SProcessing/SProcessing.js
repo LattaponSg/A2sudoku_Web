@@ -317,12 +317,12 @@ function highlightSelectedCell(){
 }
 
 function drawSaveButton(){   
-    saveBtnX = width - 150;  
-    saveBtnY = height - 80;  
+    saveBtnX = width - 650;  
+    saveBtnY = height - 189;  
 
     strokeWeight(2);
     fill(255);
-    rect(saveBtnX, saveBtnY, saveBtnW, saveBtnH, 5);
+    rect(saveBtnX, saveBtnY, saveBtnW, saveBtnH);
     fill(0, 200, 0);
     textSize(20);
     textAlign(CENTER, CENTER);
