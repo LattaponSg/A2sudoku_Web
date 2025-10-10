@@ -39,6 +39,7 @@ let FixedNumber = new Array(9);
 for (let i = 0; i < 9; i++) {
   FixedNumber[i] = new Array(9).fill(false);
 }
+let resetBtnX, resetBtnY, resetBtnW = 100, resetBtnH = 40;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -68,7 +69,7 @@ function draw(){
     drawBoard();
     drawNumInBoard();
     drawAnswer();
-    text("Chance : " + chance ,offsetX-453, offsetY+383);
+    text("Chance : " + chance ,offsetX-470, offsetY+383);
     highlightSelectedCell();    
     
     if (dragAnswer != -1) {
@@ -77,6 +78,7 @@ function draw(){
     pop();
     drawSaveButton();
     drawLoadButton();
+    drawResetButton();
     endGame();
 }
 
@@ -268,11 +270,19 @@ function resetGame(){
     dragAnswer = -1;
 }
 
-function keyPressed(){
-    if (key === 'r' || key === 'R') {
-        resetGame();
-        loop();
-    }
+function drawResetButton(){
+    resetBtnX = width - 635;  
+    resetBtnY = height - 189;
+
+    strokeWeight(2);
+    fill(255);
+    rect(resetBtnX, resetBtnY, resetBtnW, resetBtnH);
+    fill(200, 0, 0);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("Reset", resetBtnX + resetBtnW/2, resetBtnY + resetBtnH/2);
+
+    fill(0);
 }
 
 function mousePressed(){
@@ -298,6 +308,12 @@ function mousePressed(){
        mouseY >= saveBtnY && mouseY <= saveBtnY + saveBtnH){
         saveGame();
     }
+    
+    if(mouseX >= resetBtnX && mouseX <= resetBtnX + resetBtnW &&
+       mouseY >= resetBtnY && mouseY <= resetBtnY + resetBtnH){
+        resetGame();
+        loop(); 
+    }
 }
 
 function highlightSelectedCell(){
@@ -322,7 +338,7 @@ function highlightSelectedCell(){
 }
 
 function drawSaveButton(){   
-    saveBtnX = width - 650;  
+    saveBtnX = width - 740;  
     saveBtnY = height - 189;  
 
     strokeWeight(2);
@@ -397,7 +413,7 @@ function resetWrongCells(){
 }
 
 function drawLoadButton(){
-    loadBtnX = width - 755;
+    loadBtnX = width - 845;
     loadBtnY = height - 189;
     
     strokeWeight(2);
