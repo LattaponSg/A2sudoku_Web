@@ -378,6 +378,7 @@ function handleFile(file){
             let row = lines[i].trim().split(/\s+/).map(Number);
             board.push(row);
         }
+        setFixedNumbers();
         resetWrongCells();
     }
 }
