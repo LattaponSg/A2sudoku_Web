@@ -227,19 +227,11 @@ function checkAnswer(row, col) {
   if (isDuplicate(row, col, val)) {
     wrongCells[row][col] = true;
     wrongCount--;
-    if (wrongCount == 0) {
+    if (wrongCount <= 0) {
       gameOver = true;
     }
-    return;
-  }
-
-  if (board[row][col] != a[row][col]) {
-    wrongCells[row][col] = true;
-    wrongCount--;
-    if (wrongCount == 0) {
-      gameOver = true;
-    }
-  } else {
+  } 
+  else {
     wrongCells[row][col] = false;
   }
 }
