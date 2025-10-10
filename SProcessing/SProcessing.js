@@ -29,7 +29,7 @@ for (let i = 0; i < 9; i++) {
     wrongCells[i] = new Array(9).fill(false);
 }
 
-let wrongCount = 3;
+let chance = 3;
 let gameOver = false;
 let gameWin = false;
 let saveBtnX, saveBtnY, saveBtnW = 100, saveBtnH = 40;
@@ -68,7 +68,7 @@ function draw(){
     drawBoard();
     drawNumInBoard();
     drawAnswer();
-    text("Chance : " + wrongCount ,offsetX-453, offsetY+383);
+    text("Chance : " + chance ,offsetX-453, offsetY+383);
     highlightSelectedCell();    
     
     if (dragAnswer != -1) {
@@ -230,8 +230,8 @@ function checkAnswer(row, col) {
 
   if (isDuplicate(row, col, val)) {
     wrongCells[row][col] = true;
-    wrongCount--;
-    if (wrongCount <= 0) {
+    chance--;
+    if (chance <= 0) {
       gameOver = true;
     }
   } 
@@ -391,7 +391,7 @@ function resetWrongCells(){
     }
     gameOver = false;
     gameWin = false;
-    wrongCount = 3;
+    chance = 3;
     dragAnswer = -1;
     loop();
 }
