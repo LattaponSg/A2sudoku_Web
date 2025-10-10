@@ -39,6 +39,10 @@ let lines;
 let saveBtnX, saveBtnY, saveBtnW = 100, saveBtnH = 40;
 let loadBtnX, loadBtnY, loadBtnW = 100, loadBtnH = 40;
 let fileInput;
+let FixedNumber = new Array(9);
+for (let i = 0; i < 9; i++) {
+  FixedNumber[i] = new Array(9).fill(false);
+}
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -49,6 +53,7 @@ function setup(){
     randomBlank();
     fillBoard();
     removeNumber(board);
+    setFixedNumbers();
     drawBoard();
     drawNumInBoard();
     drawAnswer();
@@ -121,19 +126,24 @@ function removeNumber(board){
     }
 }
 
-function drawNumInBoard(){
-    for(let row = 0; row < board.length; row++){
-        for (let col = 0 ; col < board[row].length ; col++){
-            if(board[row][col] != 0){
-                if(wrongCells[row][col]){
-                    fill(255, 0, 0);
-                } else {
-                    fill(0);
-                }
-                text(board[row][col], col*cellSize + cellSize/2 , row*cellSize + cellSize/2);
-            }
+function drawNumInBoard() {
+  textAlign(CENTER, CENTER);
+  textSize(20);
+
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      if (board[row][col] !== 0) {
+        if (FixedNumber[row][col]) {
+          fill(0);
+        } else if (isDuplicate(row, col, board[row][col])) {
+          fill(200, 0, 0); 
+        } else {
+          fill(0, 200, 100); 
         }
+        text(board[row][col], col * cellSize + cellSize / 2, row * cellSize + cellSize / 2);
+      }
     }
+  }
 }
 
 function mouseClicked(){
@@ -369,7 +379,7 @@ function drawChance(){
     text("Chance : " + wrongCount, 20, height - 40);
 }
 
-function handleFile(file) {
+function handleFile(file){
     if (file.type === 'text') {
         let lines = file.data.split(/\r?\n/);
         board = [];
@@ -381,7 +391,7 @@ function handleFile(file) {
     }
 }
 
-function resetWrongCells() {
+function resetWrongCells(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             wrongCells[row][col] = false;
@@ -394,7 +404,7 @@ function resetWrongCells() {
     loop();
 }
 
-function drawLoadButton() {
+function drawLoadButton(){
     loadBtnX = width - 755;
     loadBtnY = height - 189;
     
@@ -407,7 +417,7 @@ function drawLoadButton() {
     text("Load", loadBtnX + loadBtnW/2, loadBtnY + loadBtnH/2);
 }
 
-function isDuplicate(thatRow, thatCol, answer) {
+function isDuplicate(thatRow, thatCol, answer){
   for (let j = 0; j < 9; j++) {
     if (j !== thatCol && board[thatRow][j] === answer) {
       return true;
@@ -432,4 +442,12 @@ function isDuplicate(thatRow, thatCol, answer) {
   }
 
   return false;
+}
+
+function setFixedNumbers(){
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      FixedNumber[row][col] = board[row][col] !== 0;
+    }
+  }
 }
