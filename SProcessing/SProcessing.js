@@ -36,6 +36,9 @@ let wrongCount = 3;
 let gameOver = false;
 let gameWin = false;
 let lines;
+let saveBtnX, saveBtnY, saveBtnW = 100, saveBtnH = 40;
+let loadBtnX, loadBtnY, loadBtnW = 100, loadBtnH = 40;
+let fileInput;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -48,9 +51,12 @@ function setup(){
     removeNumber(board);
     drawBoard();
     drawNumInBoard();
-    loadGame();
     drawAnswer();
-    loadGame();
+    fileInput = createFileInput(handleFile);
+    fileInput.hide();
+
+    loadBtnX = width - 150;
+    loadBtnY = height - 140;
 }
 
 function draw(){
@@ -72,6 +78,7 @@ function draw(){
     }
     pop();
     drawSaveButton();
+    drawLoadButton();
     endGame();
 }
 
@@ -214,16 +221,27 @@ function drawDraggingAnswer(offsetX, offsetY){
     pop();
 }
 
-function checkAnswer(row, col){
-    if(board[row][col] != a[row][col]){
-        wrongCells[row][col] = true;
-        wrongCount--;
-        if (wrongCount == 0) {
-            gameOver = true;
-        }
-    } else {
-        wrongCells[row][col] = false;
+function checkAnswer(row, col) {
+  let val = board[row][col];
+
+  if (isDuplicate(row, col, val)) {
+    wrongCells[row][col] = true;
+    wrongCount--;
+    if (wrongCount == 0) {
+      gameOver = true;
     }
+    return;
+  }
+
+  if (board[row][col] != a[row][col]) {
+    wrongCells[row][col] = true;
+    wrongCount--;
+    if (wrongCount == 0) {
+      gameOver = true;
+    }
+  } else {
+    wrongCells[row][col] = false;
+  }
 }
 
 function checkWin(){
@@ -269,23 +287,19 @@ function mousePressed(){
     if(my >= cellSize * 10 && my <= cellSize * 11 && mx >= 0 && mx <= boardSize){
         let col = floor(mx / cellSize);
         dragAnswer = col + 1;
-    }else if(my >= 0 && my < boardSize && mx >= 0 && mx < boardSize){
+    } else if(my >= 0 && my < boardSize && mx >= 0 && mx < boardSize){
         rows = floor(my / cellSize);
         cols = floor(mx / cellSize);
     }
     
-    let btnX = 768;
-    let btnY = height - 189;
-    let btnW = 100;
-    let btnH = 40;
-
-    if (mouseX >= btnX && mouseX <= btnX + btnW &&
-        mouseY >= btnY && mouseY <= btnY + btnH) {
-        saveGame();
+    if(mouseX >= loadBtnX && mouseX <= loadBtnX + loadBtnW &&
+       mouseY >= loadBtnY && mouseY <= loadBtnY + loadBtnH){
+        fileInput.elt.click();
     }
-    if (mouseX >= btnX + 120 && mouseX <= btnX + 120 + btnW &&
-        mouseY >= btnY && mouseY <= btnY + btnH) {
-        loadGame();
+
+    if(mouseX >= saveBtnX && mouseX <= saveBtnX + saveBtnW &&
+       mouseY >= saveBtnY && mouseY <= saveBtnY + saveBtnH){
+        saveGame();
     }
 }
 
@@ -311,49 +325,27 @@ function highlightSelectedCell(){
 }
 
 function drawSaveButton(){   
-    let btnW = 100;
-    let btnH = 40;
-    let btnX = 880;
-    let btnY = height - 189;
-    
+    saveBtnX = width - 150;  
+    saveBtnY = height - 80;  
+
     strokeWeight(2);
     fill(255);
-    rect(btnX, btnY, btnW, btnH);
+    rect(saveBtnX, saveBtnY, saveBtnW, saveBtnH, 5);
     fill(0, 200, 0);
     textSize(20);
     textAlign(CENTER, CENTER);
-    text("Save", btnX + btnW/2, btnY + btnH/2);
-    
+    text("Save", saveBtnX + saveBtnW/2, saveBtnY + saveBtnH/2);
+
     fill(0);
-    
 }
 
 function saveGame(){
     let data = [];
-    for (let row of board) {
-        data.push(row.join(" "));
+    for (let row = 0; row < 9; row++) {
+        data.push(board[row].join(" "));
     }    
     saveStrings(data, "sudoku_save_game.txt"); 
-}
-
-function loadGame(){
-    loadStrings('sudoku_save_game.txt', (lines) => {
-        board = [];
-        for (let i = 0; i < lines.length; i++) {
-            let row = lines[i].trim().split(/\s+/).map(Number);
-            board.push(row);
-        }
-        for (let row = 0; row < 9; row++) {
-            for (let col = 0; col < 9; col++) {
-                wrongCells[row][col] = false;
-            }
-        }
-        gameOver = false;
-        gameWin = false;
-        wrongCount = 3;
-        dragAnswer = -1;
-        loop();
-    });
+    console.log("Game saved!");
 }
 
 function endGame(){
@@ -379,4 +371,73 @@ function endGame(){
         textAlign(CENTER, CENTER);
         text("Press R to Reset Game", width / 2, height / 2 + 20)
     }
+}
+
+function drawChance(){
+    fill(0);
+    textSize(20);
+    textAlign(LEFT, CENTER);
+    text("Chance : " + wrongCount, 20, height - 40);
+}
+
+function handleFile(file) {
+    if (file.type === 'text') {
+        let lines = file.data.split(/\r?\n/);
+        board = [];
+        for (let i = 0; i < lines.length; i++) {
+            let row = lines[i].trim().split(/\s+/).map(Number);
+            board.push(row);
+        }
+        resetWrongCells();
+    }
+}
+
+function resetWrongCells() {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            wrongCells[row][col] = false;
+        }
+    }
+    gameOver = false;
+    gameWin = false;
+    wrongCount = 3;
+    dragAnswer = -1;
+    loop();
+}
+
+function drawLoadButton() {
+    strokeWeight(2);
+    fill(255);
+    rect(loadBtnX, loadBtnY, loadBtnW, loadBtnH, 5);
+    fill(0, 0, 200);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("Load", loadBtnX + loadBtnW/2, loadBtnY + loadBtnH/2);
+}
+
+function isDuplicate(thatRow, thatCol, answer) {
+  for (let j = 0; j < 9; j++) {
+    if (j !== thatCol && board[thatRow][j] === answer) {
+      return true;
+    }
+  }
+
+  for (let i = 0; i < 9; i++) {
+    if (i !== thatRow && board[i][thatCol] === answer) {
+      return true;
+    }
+  }
+
+  let startRow = Math.floor(thatRow / 3) * 3;
+  let startCol = Math.floor(thatCol / 3) * 3;
+
+  for (let i = startRow; i < startRow + 3; i++) {
+    for (let j = startCol; j < startCol + 3; j++) {
+      if ((i !== thatRow || j !== thatCol) && board[i][j] === answer) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
