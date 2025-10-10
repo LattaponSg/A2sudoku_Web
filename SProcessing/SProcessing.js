@@ -54,9 +54,6 @@ function setup(){
     drawAnswer();
     fileInput = createFileInput(handleFile);
     fileInput.hide();
-
-    loadBtnX = width - 150;
-    loadBtnY = height - 140;
 }
 
 function draw(){
@@ -398,9 +395,12 @@ function resetWrongCells() {
 }
 
 function drawLoadButton() {
+    loadBtnX = width - 755;
+    loadBtnY = height - 189;
+    
     strokeWeight(2);
     fill(255);
-    rect(loadBtnX, loadBtnY, loadBtnW, loadBtnH, 5);
+    rect(loadBtnX, loadBtnY, loadBtnW, loadBtnH);
     fill(0, 0, 200);
     textSize(20);
     textAlign(CENTER, CENTER);
