@@ -12,7 +12,6 @@ let a = [[8,7,6,5,4,3,1,9,2],
          
 let cellSize = 50;
 let boardSize = cellSize * 9;
-let blank = new Array(4);
 
 let board = new Array(9);
 for (let i = 0; i < 9; i++) {
@@ -24,8 +23,6 @@ let cols = - 1;
 let dragAnswer = -1;
 let offsetX;
 let offsetY;
-let mx;
-let my;
 
 let wrongCells = new Array(9);
 for (let i = 0; i < 9; i++) {
@@ -35,7 +32,6 @@ for (let i = 0; i < 9; i++) {
 let wrongCount = 3;
 let gameOver = false;
 let gameWin = false;
-let lines;
 let saveBtnX, saveBtnY, saveBtnW = 100, saveBtnH = 40;
 let loadBtnX, loadBtnY, loadBtnW = 100, loadBtnH = 40;
 let fileInput;
@@ -100,8 +96,9 @@ function drawBoard(){
 }
 
 function randomBlank(){
-    for(let i = 0; i < blank.length; i++){
-        blank[i] = int(random(0,9));
+    let blanks = [];
+    for(let i = 0; i < 4; i++){
+        blanks.push(int(random(0,9)));
     }
 }
 
@@ -371,13 +368,6 @@ function endGame(){
         textAlign(CENTER, CENTER);
         text("Press R to Reset Game", width / 2, height / 2 + 20)
     }
-}
-
-function drawChance(){
-    fill(0);
-    textSize(20);
-    textAlign(LEFT, CENTER);
-    text("Chance : " + wrongCount, 20, height - 40);
 }
 
 function handleFile(file){
