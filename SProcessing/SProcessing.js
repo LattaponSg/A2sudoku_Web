@@ -78,7 +78,7 @@ function draw(){
     pop();
     drawSaveButton();
     drawLoadButton();
-    drawResetButton();
+    drawResetButton(width - 635, height - 189);
     endGame();
 }
 
@@ -270,9 +270,9 @@ function resetGame(){
     dragAnswer = -1;
 }
 
-function drawResetButton(){
-    resetBtnX = width - 635;  
-    resetBtnY = height - 189;
+function drawResetButton(x, y){
+    resetBtnX = x;  
+    resetBtnY = y;
 
     strokeWeight(2);
     fill(255);
@@ -371,7 +371,7 @@ function endGame(){
         textSize(40);
         fill(0);
         textAlign(CENTER, CENTER);
-        text("Press R to Reset Game", width / 2, height / 2 + 20)
+        drawResetButton(width/2 - resetBtnW/2, height/2 + 20);
     }   
     if(gameWin){
         background(250);
@@ -382,7 +382,7 @@ function endGame(){
         textSize(40);
         fill(0);
         textAlign(CENTER, CENTER);
-        text("Press R to Reset Game", width / 2, height / 2 + 20)
+        drawResetButton(width/2 - resetBtnW/2, height/2 + 20);
     }
 }
 
